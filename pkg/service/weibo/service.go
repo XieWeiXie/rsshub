@@ -72,8 +72,7 @@ func (s *Service) ContentsFull(uid string) (err error) {
 
 func (s *Service) NewOriginWeibo(ctx context.Context, req *v1.NewOriginWeiboReq) (*v1.NewOriginWeiboReply, error) {
 	first := NewFirst(req.Uid, int(req.Size))
-	op := schema.UniqueOp{}
-	op.DB = gorm.DB{} // todo
+	op := schema.UniqueOp{DB: *db.DefaultMysql}
 	var request = new(schema.RequestUniqueOp)
 	var newUrl []string
 	doFunc := func(url []string) {

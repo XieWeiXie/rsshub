@@ -20,7 +20,7 @@ func main() {
 	v1.GET("/hi", controller.NewHandler(fmt.Sprintf("%s", controller.Hello{}.Describe())).ToRSSHandler)
 	v1.GET("/36kr", controller.NewHandler(fmt.Sprintf("%s", controller.Kr36{}.Describe())).ToRSSHandler)
 	v1.GET("/weibo/:user", controller.NewHandler(fmt.Sprintf("%s", controller.WeiboCn{}.Describe())).ToRSSHandler)
-
+	v1.POST("/weibo/toUser", controller.NewHandler(fmt.Sprintf("%s", controller.WeiboCnAdd{}.Describe())).ToRSSHandler)
 	go grpcservice.GrpcService(9091)
 
 	engine.Run(":8080")

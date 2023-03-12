@@ -25,7 +25,6 @@ func (w WeiboCn) Describe() string {
 
 func (w WeiboCn) ToRSSHandler(ctx *gin.Context) {
 	client := v1.NewWeiboClient(grpcservice.GrpcClient(9091))
-	fmt.Println(client.Hello(context.Background(), &v1.HelloReq{Data: ctx.Param("user")}))
 	stream, err := client.NewAllWeibo(context.Background(), &v1.NewAllWeiboReq{Uid: ctx.Param("user")})
 	if err != nil {
 		ctx.Data(http.StatusBadRequest, defaultXML, nil)
