@@ -7,4 +7,3 @@ function New36Kr() {
         Contents: ".item-desc"
     }
 }
-
