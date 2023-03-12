@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package rsshub.v1;
+option go_package = "github.com/XieWeiXie/rsshub/api/v1;v1";
+
+service Weibo {
+  // Hi
+  rpc Hello(HelloReq) returns( HelloReply);
+  // 获取最新原创微博
+  rpc NewOriginWeibo(NewOriginWeiboReq) returns(NewOriginWeiboReply);
+  // 全量获取
+  rpc NewAllWeibo(NewAllWeiboReq) returns( stream NewAllWeiboReply);
+  // 新增监控对象
+  rpc NewAddWeibo(NewAddWeiboReq) returns(NewAddWeiboReply);
+  // 监控对象列表
+  rpc WeiboUsers(WeiboUsersReq) returns(WeiboUsersReply);
+
+}
+
+
+message NewOriginWeiboReq{
+  string uid = 1;
+  int32 size = 2;
+}
+
+message NewOriginWeiboReply{
+  map<string,bytes> response = 1;
+}
+
+message NewAllWeiboReq{
+  string uid = 1;
+}
+
+message NewAllWeiboReply{
+  map<string, bytes> response = 1;
+}
+
+message HelloReq{
+  string data = 1;
+}
+
+message HelloReply{
+  string data = 1;
+}
+
+message NewAddWeiboReq{
+  string uid = 1;
+  string url = 2;
+  string desc = 3;
+}
+
+message NewAddWeiboReply{
+
+}
+
+message WeiboUsersReq{
+  int32 page = 1;
+  int32 size = 2;
+  string uid = 3;
+
+}
+
+message WeiboUsersReply{
+  message One {
+    string uid = 1;
+    string url_pc = 2;
+    string url_web = 3;
+    string desc = 4;
+  }
+  repeated One list = 1;
+  int32 total = 2;
+}

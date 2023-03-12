@@ -1,41 +1,14 @@
-package main
+package example
 
 import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/XieWeiXie/rsshub"
+	"github.com/XieWeiXie/rsshub/pkg/hub"
 	"strings"
 )
 
-func main() {
-	NewDaYu()
-}
-
-func New36kr() {
-	rule := rsshub.Rule{
-		Host:            "https://36kr.com",
-		HostTitle:       "36kr",
-		HostDescription: "36氪_让一部分人先看到未来",
-		TargetURl:       "https://36kr.com/",
-		ListContainers:  "#app .main-right .kr-home-main .kr-home-flow .kr-home-flow-list .kr-flow-article-item",
-		Title:           ".article-item-title",
-		URL:             ".article-item-title",
-		Date:            ".kr-flow-bar-time",
-		Contents:        ".article-item-description",
-		Author:          ".kr-flow-bar-author",
-		Description:     ".article-item-description",
-	}
-
-	toRes := rsshub.ToResponseRod{}
-	doc, _ := toRes.Response(rule.TargetURl)
-
-	feeds := rsshub.NewFeeds()
-	f, _ := feeds.ToFeed(doc, rule)
-	fmt.Println(f.ToRss())
-}
-
 func New36krNews() {
-	rule := rsshub.Rule{
+	rule := hub.Rule{
 		Host:            "https://36kr.com",
 		HostTitle:       "36kr",
 		HostDescription: "36氪_让一部分人先看到未来",
@@ -51,21 +24,21 @@ func New36krNews() {
 		Description:    ".article-item-description",
 	}
 
-	toRes := rsshub.ToResponseRod{}
+	toRes := hub.ToResponseRod{}
 	doc, _ := toRes.Response(rule.TargetURl)
 
-	feeds := rsshub.NewFeeds()
+	feeds := hub.NewFeeds()
 	f, _ := feeds.ToFeed(doc, rule)
 	fmt.Println(f.ToRss())
 
 }
 
 func NewDaYu() {
-	rootURL := rsshub.Rule{
+	rootURL := hub.Rule{
 		TargetURl: "https://btcdayu.gitbook.io/dayu",
 		URL:       "div.css-175oi2r a",
 	}
-	rule := rsshub.Rule{
+	rule := hub.Rule{
 		Host:            "https://btcdayu.gitbook.io/dayu",
 		HostTitle:       "聪明的投资者(币圈版)",
 		HostDescription: "聪明的投资者(币圈版)",
@@ -81,7 +54,7 @@ func NewDaYu() {
 		Description:    ".css-175oi2r div['dir'='auto']",
 	}
 
-	toRes := rsshub.ToResponseRod{}
+	toRes := hub.ToResponseRod{}
 
 	rootDoc, _ := toRes.Response(rootURL.TargetURl)
 	var targetUrls []string
@@ -92,15 +65,12 @@ func NewDaYu() {
 		}
 	})
 
-	toRes.Response("https://btcdayu.gitbook.io/dayu/cong-ming-de-tou-zi-zhe/di-yi-zhang-tou-zi-yu-tou-ji")
-
 	for _, one := range targetUrls {
-		fmt.Println(one)
 		doc, err := toRes.Response(one)
 		if err != nil {
 			continue
 		}
-		feeds := rsshub.NewFeeds()
+		feeds := hub.NewFeeds()
 		f, _ := feeds.ToFeed(doc, rule)
 		if len(f.Items) > 0 {
 			fmt.Println(f.ToRss())

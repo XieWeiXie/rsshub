@@ -1,4 +1,4 @@
-package rsshub
+package hub
 
 import (
 	"fmt"
