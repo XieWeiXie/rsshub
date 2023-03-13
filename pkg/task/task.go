@@ -20,12 +20,12 @@ type NewWeiBoContent struct {
 
 func (n NewWeiBoContent) Run() {
 	s := weibo.Service{}
-	for k, _ := range can() {
+	for k, _ := range can(1) {
 		_ = s.ContentsFull(k)
 	}
 }
 
-func can() map[string]struct{} {
+func can(_type int) map[string]struct{} {
 	op := schema.UserOp{DB: *db.DefaultMysql}
 	var (
 		users  []schema.Users
@@ -37,15 +37,27 @@ func can() map[string]struct{} {
 		}
 		return nil
 	})
-
-	op2 := schema.UniqueOp{DB: *db.DefaultMysql}
 	var can = make(map[string]struct{})
-	for k, _ := range unique {
-		v, _ := op2.CanFull(k)
-		if v {
-			can[k] = struct{}{}
+
+	switch _type {
+	case 1:
+		op2 := schema.UniqueOp{DB: *db.DefaultMysql}
+		for k, _ := range unique {
+			v, _ := op2.CanFull(k)
+			if v {
+				can[k] = struct{}{}
+			}
+		}
+	case 2:
+		op2 := schema.ContentsOp{DB: *db.DefaultMysql}
+		for k, _ := range unique {
+			v, _ := op2.CanFull(k)
+			if v.ID == 0 {
+				can[k] = struct{}{}
+			}
 		}
 	}
+
 	if len(can) == 0 {
 		return nil
 	}
@@ -56,7 +68,7 @@ type NewWeiboURL struct {
 }
 
 func (n NewWeiboURL) Run() {
-	can := can()
+	can := can(2)
 	s := weibo.Service{}
 	for k, _ := range can {
 		_ = s.FistFull(k)
