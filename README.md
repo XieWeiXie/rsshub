@@ -32,6 +32,10 @@
 
 ![Demo](images/demo.jpg)
 
+![WC](images/wangchuan.jpg)
+
+![zj](images/zhangjiang.jpg)
+
 
 ### Author
 

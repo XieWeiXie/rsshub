@@ -11,7 +11,7 @@ import (
 func HandlerTask() {
 	c := cron.New()
 	_ = c.AddJob("0 */10 * * * ?", NewWeiboURL{})
-	_ = c.AddJob("20 */30 * * * ?", NewWeiBoContent{})
+	_ = c.AddJob("20 */10 * * * ?", NewWeiBoContent{})
 	c.Start()
 }
 
@@ -20,7 +20,7 @@ type NewWeiBoContent struct {
 
 func (n NewWeiBoContent) Run() {
 	s := weibo.Service{}
-	for k, _ := range can(1) {
+	for k, _ := range can(2) {
 		_ = s.ContentsFull(k)
 	}
 }
@@ -68,7 +68,7 @@ type NewWeiboURL struct {
 }
 
 func (n NewWeiboURL) Run() {
-	can := can(2)
+	can := can(1)
 	s := weibo.Service{}
 	for k, _ := range can {
 		_ = s.FistFull(k)
