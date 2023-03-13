@@ -35,5 +35,5 @@ func (w WeiboCnAdd) ToRSSHandler(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.Status(http.StatusOK)
+	ctx.JSON(http.StatusOK, "OK")
 }

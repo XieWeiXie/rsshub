@@ -57,7 +57,7 @@ func (f firstInit) ToFirst(do func([]string)) (err error) {
 		})
 	doc, err := toResponse.Response(f.RootURL())
 	if err != nil {
-		log.Fatalln("get response fail")
+		log.Println("get response fail")
 		return err
 	}
 
@@ -71,7 +71,7 @@ func (f firstInit) ToFirst(do func([]string)) (err error) {
 		pa          = 2
 	)
 
-	if _, ok := doc.Find("body").Attr("div"); !ok {
+	if length := doc.Find("body").Find("div").Length(); length == 0 {
 		log.Println("更新Cookie")
 		return
 	}

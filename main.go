@@ -7,11 +7,13 @@ import (
 	grpcservice "github.com/XieWeiXie/rsshub/pkg/grpc"
 	"github.com/XieWeiXie/rsshub/pkg/task"
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 func main() {
 	engine := gin.New()
 	engine.Use(gin.Recovery(), gin.Logger())
+	fmt.Println(os.Getenv("Cookie"))
 	db.Mysql(db.WeiboDatabase)
 	go task.HandlerTask()
 

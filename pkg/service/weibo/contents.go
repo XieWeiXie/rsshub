@@ -46,7 +46,8 @@ func (c contents) ToContent(url string) error {
 		return err
 	}
 
-	if strings.Contains(doc.Find("div.me").Text(), "Permission Denied!") || strings.Contains(doc.Find("div.me").Text(), "Due to author settings, The contents cannot be viewed.") {
+	deny := doc.Find("div.me").Text()
+	if strings.Contains(deny, "Permission Denied!") || strings.Contains(deny, "Due to author settings, The contents cannot be viewed.") || strings.Contains(deny, "not exists") {
 		return errors.New("Permission Denied!")
 	}
 
