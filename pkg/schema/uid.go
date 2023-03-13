@@ -20,7 +20,7 @@ func (u Users) TableName() string {
 func (u Users) Fields() map[string]string {
 	t := reflect.TypeOf(u)
 	var m = make(map[string]string)
-	for i := 0; i <= t.NumField(); i++ {
+	for i := 0; i < t.NumField(); i++ {
 		m[t.Field(i).Name] = t.Field(i).Tag.Get("json")
 	}
 	return m
